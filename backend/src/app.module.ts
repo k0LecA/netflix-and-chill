@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MoviesModule } from './modules/movies/movies.module';
 import { Movie } from './modules/movies/entities/movie.entity'
 import { GenresModule } from './modules/genres/genres.module';
+import { Genre } from './modules/genres/entities/genre.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { GenresModule } from './modules/genres/genres.module';
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
       database: 'database.sqlite',
-      entities: [Movie],
+      entities: [Movie, Genre],
       synchronize: true,
     }),
     GenresModule,

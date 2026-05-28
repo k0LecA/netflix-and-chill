@@ -15,7 +15,6 @@ export class Movie {
     rating!: number;
     @Column()
     posterUrl!: string;
-    @Column()
     @ManyToOne(()=>Genre, (genre)=>genre.movies)
     genre!: Genre;
     @Column()
