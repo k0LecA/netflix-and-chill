@@ -23,7 +23,7 @@ export class MoviesController {
     return this.moviesService.update(id, updateMovieDto);
   }
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number, @Body() updateMovieDto: UpdateMovieDto) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.moviesService.remove(id);
   }
 }
