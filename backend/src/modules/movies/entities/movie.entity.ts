@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
+import { Genre } from '../../genres/entities/genre.entity';
+
 @Entity()
 export class Movie {
     @PrimaryGeneratedColumn()
@@ -7,4 +9,15 @@ export class Movie {
     name!: string;
     @Column()
     description!: string;
+    @Column()
+    year!: number;
+    @Column()
+    rating!: number;
+    @Column()
+    posterUrl!: string;
+    @Column()
+    @ManyToOne(()=>Genre, (genre)=>genre.movies)
+    genre!: Genre;
+    @Column()
+    duration!: number;
 }

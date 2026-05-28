@@ -1,12 +1,37 @@
-import { IsString, IsNotEmpty, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, IsOptional, IsInt, Min, Max, IsNumber, IsUrl } from 'class-validator';
 
 export class CreateMovieDto {
-    @IsString()
     @IsNotEmpty()
+    @IsString()
     name!: string;
 
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     @MinLength(6)
-    description!: string;
+    description?: string;
+
+    @IsNotEmpty()
+    @IsInt()
+    @Min(1888)
+    @Max(2100)
+    year!: number;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    @Max(10)
+    rating?: number;
+
+    @IsNotEmpty()
+    @IsUrl()
+    posterUrl!: string;
+
+    @IsNotEmpty()
+    @IsInt()
+    genreId!: number;
+
+    @IsNotEmpty()
+    @IsInt()
+    @Min(1)
+    duration!: number;
 }
