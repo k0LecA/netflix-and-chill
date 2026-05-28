@@ -1,10 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { moviesApi } from '../api/movies';
 
 interface Movie {
-  id: number;
-  name: string;
-  description: string;
+    id: number;
+    name: string;
+    description?: string;
+    year: number;
+    rating: number;
+    posterUrl: string;
+    duration: number;
+    genre?: {
+        id: number;
+        name: string;
+    }
 }
 
 export function useMovies() {
@@ -12,22 +20,32 @@ export function useMovies() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMovies = async () => {
+  const fetchMovies = useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await moviesApi.getAll();
       setMovies(data);
       setError(null);
     } catch (err: any) {
-      setError(err.message || 'Что-то пошло не так');
+      setError(err.message || 'Something went wrong');
     } finally {
       setIsLoading(false);
     }
-  };
+  },[]);
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [fetchMovies]);
   
-  return { movies, isLoading, error, refreshMovies: fetchMovies };
+  
+  const createMovie = async (newMovieData: Omit<Movie, 'id' | 'genre'> & { genreId: number }) => {
+    try {
+      await moviesApi.create(newMovieData);
+      await fetchMovies();
+    } catch (err: any) {
+      throw new Error(err.message || 'Failed to create movie');
+    }
+  };
+
+  return { movies, isLoading, error, refreshMovies: fetchMovies, createMovie};
 }
