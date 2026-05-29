@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import '../App.css';
+import '@/App.css';
 import MovieCard from './MovieCard';
-import { useMovies } from '../hooks/useMovies';
+import { useMovies } from '@/hooks/useMovies';
 import AddMovieModal from './AddMovieModal';
 
 function List() {

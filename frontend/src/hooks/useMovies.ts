@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { moviesApi } from '../api/movies';
+import { moviesApi } from '@/api/movies';
 
 interface Movie {
     id: number;
