@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000/movies';
+const BASE_URL = '/api/movies';
 
 export interface Movie {
     id: number;

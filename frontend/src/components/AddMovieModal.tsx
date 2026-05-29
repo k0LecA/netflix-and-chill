@@ -1,5 +1,5 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import { use, useState } from 'react'
+import { useState } from 'react'
 import { useGenres } from '../hooks/useGenres';
 
 interface AddMovieModalProps {

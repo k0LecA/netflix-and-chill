@@ -10,7 +10,7 @@ export function useGenres() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:3000/genres')
+        fetch('/api/genres')
             .then((res) => res.json())
             .then((data) => {
                 setGenres(data);
