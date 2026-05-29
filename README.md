@@ -7,7 +7,8 @@ A full-stack web application for curating, managing, and browsing a personal col
 ### Frontend
 - Core: React 19, TypeScript
 - Build Tool: Vite
-- Styling: Tailwind CSS, CSS
+- Routing: React Router DOM
+- Styling: Tailwind CSS v4, CSS
 - Component Library: Radix UI, Shadcn UI, Bootstrap, React Bootstrap
 - Icons: Lucide React
 
@@ -15,7 +16,9 @@ A full-stack web application for curating, managing, and browsing a personal col
 - Core Framework: NestJS, TypeScript
 - Object Relational Mapper (ORM): TypeORM
 - Database: SQLite (via better-sqlite3)
-- Validation: Class-validator, Class-transformer
+- Authentication: JSON Web Tokens (jsonwebtoken)
+- Validation: Class-validator, Class-transformer, Zod
+- Password Hashing: bcryptjs
 
 ## Project Structure
 
@@ -32,12 +35,17 @@ netflix-and-chill/
 │   │   ├── app.module.ts       # Global app module and typeorm configuration
 │   │   └── main.ts             # Application entry point, global filters, and bootstrap
 │   ├── package.json
-│   └── tsconfig.json
+│   ├── tsconfig.json
+│   └── tsconfig.build.json
 ├── frontend/
 │   ├── src/
-│   │   ├── api/                # API client abstraction layer
-│   │   ├── components/         # Reusable React components (List, MovieCard, AddMovieModal)
-│   │   ├── hooks/              # Custom React hooks (useMovies)
+│   │   ├── api/                # API client abstraction layer (movies)
+│   │   ├── components/         # Reusable React components (List, MovieCard, AddMovieModal, ProtectedRoute, SignOut)
+│   │   ├── hooks/              # Custom React hooks (useMovies, useAuth, useGenres)
+│   │   ├── views/              # Page-level view components (Home, Login, SignUp)
+│   │   ├── types/              # Shared TypeScript type definitions
+│   │   ├── lib/                # Utility helpers
+│   │   ├── App.tsx             # Root application component with routing
 │   │   ├── App.css             # Main styling rules
 │   │   └── main.tsx            # React application entry point
 │   ├── package.json
