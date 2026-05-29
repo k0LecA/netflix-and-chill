@@ -8,7 +8,7 @@ import { Search, Plus } from 'lucide-react';
 
 
 function List() {
-  const { movies, isLoading, error, createMovie } = useMovies();
+  const { movies, isLoading, error, createMovie, deleteMovie } = useMovies();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,7 +40,7 @@ function List() {
 
       <div className='movies-list'>
         {filteredMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} onDelete={deleteMovie} />
         ))}
 
         <div className='movie-card add-card' onClick={() => setIsModalOpen(true)}>

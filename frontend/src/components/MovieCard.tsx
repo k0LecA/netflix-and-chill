@@ -1,4 +1,5 @@
-import { Star, Calendar, Clock, Film } from "lucide-react";
+import { Star, Calendar, Clock, Film, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface MovieCardProps {
     movie: {
@@ -14,11 +15,57 @@ interface MovieCardProps {
             name: string;
         }
     };
+    onDelete?: (id: number) => void | Promise<void>;
 }
 
-function MovieCard({movie}:MovieCardProps) {
+function MovieCard({movie, onDelete}:MovieCardProps) {
+    const [isConfirming, setIsConfirming] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!onDelete) return;
+        try {
+            setIsDeleting(true);
+            await onDelete(movie.id);
+        } catch (err) {
+            console.error(err);
+            setIsDeleting(false);
+            setIsConfirming(false);
+        }
+    };
+
     return(
         <div className="movie-card">
+            {onDelete && (
+                <>
+                    {isConfirming ? (
+                        <div className="delete-confirm-overlay" onClick={(e) => e.stopPropagation()}>
+                            <p>Delete this movie?</p>
+                            <div className="delete-confirm-buttons">
+                                <button className="confirm-btn yes" onClick={handleDelete} disabled={isDeleting}>
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                </button>
+                                <button className="confirm-btn no" onClick={() => setIsConfirming(false)} disabled={isDeleting}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <button 
+                            className="delete-button" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsConfirming(true);
+                            }}
+                            aria-label="Delete movie"
+                            title="Delete movie"
+                        >
+                            <Trash2 size={15} />
+                        </button>
+                    )}
+                </>
+            )}
             {movie.posterUrl ? (
                 <img src={movie.posterUrl} alt={movie.name} className="movie-poster" />
             ) : (

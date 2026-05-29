@@ -47,5 +47,14 @@ export function useMovies() {
     }
   };
 
-  return { movies, isLoading, error, refreshMovies: fetchMovies, createMovie};
+  const deleteMovie = async (id: number) => {
+    try {
+      await moviesApi.remove(id);
+      await fetchMovies();
+    } catch (err: any) {
+      throw new Error(err.message || 'Failed to delete movie');
+    }
+  };
+
+  return { movies, isLoading, error, refreshMovies: fetchMovies, createMovie, deleteMovie};
 }
