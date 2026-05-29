@@ -1,7 +1,8 @@
-import { Controller, Post, Get, Body, Req, Res, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Req, Res } from '@nestjs/common';
 import * as express from 'express';
 import { AuthService } from './auth.service';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { Public } from './decorators/public.decorator';
 
 class SignUpDto {
   @IsEmail({}, { message: 'Invalid email address' })
@@ -29,6 +30,7 @@ class SignInDto {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('signup')
   async signUp(
     @Body() dto: SignUpDto,
@@ -47,6 +49,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Post('signin')
   async signIn(
     @Body() dto: SignInDto,
@@ -65,6 +68,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Post('signout')
   async signOut(@Res({ passthrough: true }) response: express.Response) {
     response.clearCookie('auth_token', {
@@ -77,16 +81,6 @@ export class AuthController {
 
   @Get('me')
   async me(@Req() request: express.Request) {
-    const token = request.cookies?.['auth_token'];
-    if (!token) {
-      throw new UnauthorizedException('No authentication token found');
-    }
-
-    const decoded = this.authService.verifyToken(token);
-    if (!decoded) {
-      throw new UnauthorizedException('Invalid or expired authentication token');
-    }
-
-    return this.authService.getUserById(decoded.id);
+    return request['user'];
   }
 }
