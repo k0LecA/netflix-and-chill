@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { User } from '@/types'
+import type { User } from '@/types'
 
 interface AuthContextType {
   user: User | null
-  signIn: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<void>
   signUp: (email: string, password: string, name?: string) => Promise<void>
   signOut: () => Promise<void>
   isLoading: boolean
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   // Used to create a session and store the user data in the context
-  const signIn = async (email: string, password: string) => {
+  const login = async (email: string, password: string) => {
     const response = await fetch('/api/auth/signin', {
       method: 'POST',
       headers: {
@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp, signOut, isLoading }}>
+    <AuthContext.Provider value={{ user, login, signUp, signOut, isLoading }}>
       {children}
     </AuthContext.Provider>
   )

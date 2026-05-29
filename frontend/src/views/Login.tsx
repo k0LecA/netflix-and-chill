@@ -35,15 +35,17 @@ export default function Login() {
 
       // Attempt sign in
       await login(validatedData.email, validatedData.password)
-      navigate('/app')
+      navigate('/')
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedErrors: Record<string, string> = {}
-        error.errors.forEach((err) => {
-          if (err.path) {
-            formattedErrors[err.path[0]] = err.message
-          }
-        })
+        error.issues.forEach((err) => {
+            if (err.path && err.path.length > 0) {
+                // Превращаем имя поля (например, 'email') в строку-ключ
+                const fieldName = String(err.path[0]); 
+                formattedErrors[fieldName] = err.message;
+            }
+        });
         setErrors(formattedErrors)
       } else {
         setErrors({ submit: 'Failed to sign in. Please try again.' })
