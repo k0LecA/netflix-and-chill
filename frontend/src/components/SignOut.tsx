@@ -2,6 +2,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { LogOut } from 'lucide-react'
 
 export function SignoutButton() {
     const { signOut } = useAuth();
@@ -22,7 +23,7 @@ export function SignoutButton() {
             onClick={handleSignout}
             disabled={isPending}
         >
-            {isPending ? "Signing out..." : "Log out"}
+            {isPending ? ("Signing out...") : (<><LogOut/>Log out</>)}
         </Button>
     )
 }

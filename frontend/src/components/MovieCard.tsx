@@ -1,3 +1,5 @@
+import { Star, Calendar, Clock, Film } from "lucide-react";
+
 interface MovieCardProps {
     movie: {
         id: number;
@@ -17,12 +19,29 @@ interface MovieCardProps {
 function MovieCard({movie}:MovieCardProps) {
     return(
         <div className="movie-card">
-            <img src={movie.posterUrl} alt={movie.name} className="movie-poster"/>
+            {movie.posterUrl ? (
+                <img src={movie.posterUrl} alt={movie.name} className="movie-poster" />
+            ) : (
+                <div className="movie-poster-placeholder">
+                <Film className="placeholder-icon" />
+                </div>
+            )}
             <div className="movie-info">
                 <h3>{movie.name}</h3>
-                <span className="movie-rating">{movie.rating}*</span>
-                <p>{movie.year}</p>
-                <p>{movie.duration}</p>
+                <div className="movie-meta-row">
+                    <span className="movie-rating">
+                        <Star className="icon-star"/>
+                        {movie.rating}
+                    </span>
+                </div>
+                <p className="movie-year">
+                    <Calendar className="icon-meta" />
+                    {movie.year}
+                </p>
+                <p className="movie-duration">
+                    <Clock className="icon-meta" />
+                    {movie.duration} min
+                </p>
                 <p className="movie-desc">{movie.description}</p>
             </div>
         </div>
